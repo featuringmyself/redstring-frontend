@@ -1,3 +1,4 @@
+// in production, I'll ideally try to make it a server component
 "use client";
 
 import Image from "next/image"
@@ -9,6 +10,8 @@ import CircularProgress from "./CircularProgress"; // Add this import
 import { useState } from "react";
 import {redirect} from "next/navigation";
 
+
+
 export default function ListItem({ id, name, proffession, yoe, location, college, availability, skills, nextOpportunity, score, onReject }: {
     id: string, name: string, proffession: string, yoe: string, location: string, college: string, availability: string, skills: string[], score: number, nextOpportunity: {
         proffesion: string,
@@ -16,6 +19,7 @@ export default function ListItem({ id, name, proffession, yoe, location, college
     }, onReject?: () => void
 }) {
     const [showUnlockModal, setShowUnlockModal] = useState(false);
+    const [credit, setCredit] = useState(0);
 
     const handleReject = () => {
         console.log("Reject button clicked for:", name);
@@ -27,8 +31,17 @@ export default function ListItem({ id, name, proffession, yoe, location, college
         }
     };
 
-    const handleUnlockProfile = () => {
+    interface creditInterface{
+        data:{
+            success: boolean;
+            credit: number;
+        }
+    }
+    const handleUnlockProfile = async () => {
         setShowUnlockModal(true);
+        const credit:creditInterface = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/user/credit/`);
+
+        setCredit(credit.data.credit)
     };
 
     const confirmUnlock = async () => {
@@ -90,7 +103,7 @@ export default function ListItem({ id, name, proffession, yoe, location, college
                     onClick={handleUnlockProfile}
                     className={"flex items-center justify-center gap-1.5 text-sm text-tertiary border-border-secondary border-[1px] px-4 py-2.5 rounded-lg font-bold bg-secondary shadow-[0px_1px_2px_0px_var(--ColorsEffectsShadowsshadow-xs)] hover:bg-blue-50 transition-colors cursor-pointer"}
                 >
-                    <IconLock className={"text-xs font-bold"} /> Unlock Profile  |  🌕 100
+                    <IconLock className={"text-xs font-bold"} /> Unlock Profile  |  🌕 10
                 </button>
             </div>
 
@@ -111,7 +124,7 @@ export default function ListItem({ id, name, proffession, yoe, location, college
                         </p>
 
                         <div className="flex flex-col gap-1 tracking-tight justify-end w-full">
-                            <p><span className={"font-normal"}>Credit Available:</span> 200</p>
+                            <p><span className={"font-normal"}>Credit Available:</span> {credit}</p>
 
                             <button
                                 onClick={confirmUnlock}
