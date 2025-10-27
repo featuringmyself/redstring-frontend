@@ -73,10 +73,11 @@ export default async function Listings() {
                 <div className="py-1.5 px-3 bg-bg-secondary  rounded-md [box-shadow:0px_1px_2px_0px_var(--ColorsEffectsShadowsshadow-xs)] border-[1px] border-border-secondary text-xs text-secondary flex items-center gap-1.5"><IconArrowsUpDown className="w-3 h-3"/>Sort</div>
             </div>
 
-            <div className={"grid grid-cols-2 gap-8 mt-4"}>
+            <div className={"grid lg:grid-cols-2 grid-cols-1 gap-8 mt-4"}>
                 {candidates.map((candidate) => (
                     <ListItem
                         key={candidate._id}
+                        id={candidate._id}
                         name={candidate.name}
                         proffession={candidate.profession}
                         yoe={candidate.yoe}

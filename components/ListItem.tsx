@@ -1,14 +1,16 @@
 "use client";
 
 import Image from "next/image"
+import axios from "axios";
 import userImage from "@/public/userProfile.png"
 import personIcon from "@/public/personIcon.png"
 import { IconCheck, IconX, IconLock } from "@tabler/icons-react"
 import CircularProgress from "./CircularProgress"; // Add this import
 import { useState } from "react";
+import {redirect} from "next/navigation";
 
-export default function ListItem({ name, proffession, yoe, location, college, availability, skills, nextOpportunity, score, onReject }: {
-    name: string, proffession: string, yoe: string, location: string, college: string, availability: string, skills: string[], score: number, nextOpportunity: {
+export default function ListItem({ id, name, proffession, yoe, location, college, availability, skills, nextOpportunity, score, onReject }: {
+    id: string, name: string, proffession: string, yoe: string, location: string, college: string, availability: string, skills: string[], score: number, nextOpportunity: {
         proffesion: string,
         package: number
     }, onReject?: () => void
@@ -29,9 +31,14 @@ export default function ListItem({ name, proffession, yoe, location, college, av
         setShowUnlockModal(true);
     };
 
-    const confirmUnlock = () => {
-        // Add unlock functionality here later
+    const confirmUnlock = async () => {
+        console.log("ID "+ id)
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/unlock`, {
+            profileId: id,
+        });
+        console.log(response)
         console.log("Profile unlocked for:", name);
+        redirect(`/profile/${id}`);
         setShowUnlockModal(false);
     };
     return (
