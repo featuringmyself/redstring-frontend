@@ -59,6 +59,7 @@ export default function ListItem({ id, name, proffession, yoe, location, college
             <div className="flex items-start gap-4">
                 <Image src={userImage} width={56} height={56} alt={"Candidate Image"} className={"rounded-full"} />
                 <div className="flex items-start gap-2.5 flex-col flex-1">
+                    {/* In Production we will have a random name  */}
                     <div className="text-lg flex items-center gap-2"> <span className="blur-sm">{name}</span> <span className="text-[#A3A3A3]">•</span> <span className={"text-blue-light"}>{proffession}</span></div>
                     <div className={"text-sm flex items-center gap-2.5"}>{yoe} Years of Experience <span className={"font-normal text-[#737373]"}>|</span> <span className={"blur-sm"}>alskdjf</span> <span className={"font-normal text-[#737373]"}>|</span> {location}</div>
                     <div className={"text-sm flex items-center gap-2.5"}>{college} <div className={"flex items-center gap-1"}><span className="w-2 h-2 bg-[#17B26A] rounded-full"></span>{availability}</div></div>
