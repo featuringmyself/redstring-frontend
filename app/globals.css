@@ -7,12 +7,18 @@
     --tertiary: #141414;
     --border-secondary: #292929;
     --text-tertiary: #E5E5E5;
+    --text-secondary: #D6D6D6;
     --text-disabled: #737373;
     --bg-secondary: #141414;
     --button-primary: #ED0004;
+    --text-success: #75E0A7;
     --ColorsEffectsShadowsshadow-xs: rgba(0, 0, 0, 0.05);
     --ColorsEffectsShadowsshadow-skeumorphic-inner: rgba(0, 0, 0, 0.1);
     --ColorsEffectsShadowsshadow-skeumorphic-inner-border: rgba(255, 255, 255, 0.1);
+    --utility-green: #73E2A3;
+    --utility-success: #053321;
+    --blue-light: #7CD4FD;
+    --gray-blue: #293056;
 }
 
 @theme inline {
@@ -20,11 +26,17 @@
   --color-foreground: var(--foreground);
     --color-secondary: var(--secondary);
     --color-tertiary: var(--tertiary);
+    --color-success: var(--text-success);
   --color-border-secondary: var(--border-secondary);
+    --color-text-secondary: var(--text-secondary);
     --color-text-tertiary: var(--text-tertiary);
     --color-text-disabled: var(--text-disabled);
     --color-bg-secondary: var(--bg-secondary);
     --color-button-primary: var(--button-primary);
+    --color-utility-green: var(--utility-green);
+    --color-utility-success: var(--utility-success);
+    --color-blue-light: var(--blue-light);
+    --color-gray-blue: var(--gray-blue);
 }
 
 body {
