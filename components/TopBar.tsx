@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function TopBar() {
   return (
-    <header className="border-b-1 py-4 px-10 flex items-end justify-between border-border-secondary">
+    <header className="border-b-1 py-4 md:px-10 px-6 flex items-end justify-between border-border-secondary">
       <nav aria-label="Breadcrumb" className="flex items-center text-sm">
         <ol className="flex items-center gap-2">
           <li>
