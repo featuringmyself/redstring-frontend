@@ -9,7 +9,9 @@ import { IconCheck, IconX, IconLock } from "@tabler/icons-react";
 import CircularProgress from "./CircularProgress";
 import clubMemberIcon from "@/public/clubMember.png";
 import { useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { showLoadingToast, updateLoadingToast } from "@/utils/toast";
 
 export default function ListItem({
   id,
@@ -43,14 +45,16 @@ export default function ListItem({
 }) {
   const [showUnlockModal, setShowUnlockModal] = useState(false);
   const [credit, setCredit] = useState(0);
+  const router = useRouter();
 
   const handleReject = () => {
     console.log("Reject button clicked for:", name);
     if (onReject) {
       onReject();
+      toast.info(`${name} has been rejected`);
     } else {
       // Fallback behavior - you can customize this
-      alert(`${name} has been rejected`);
+      toast.info(`${name} has been rejected`);
     }
   };
 
@@ -61,34 +65,64 @@ export default function ListItem({
     };
   }
   const handleUnlockProfile = async () => {
-    setShowUnlockModal(true);
-    const credit: creditInterface = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/user/credit/`,
-    );
+    const loadingToast = showLoadingToast("Loading credits...");
 
-    setCredit(credit.data.credit);
+    try {
+      setShowUnlockModal(true);
+      const credit: creditInterface = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/credit/`,
+      );
+
+      setCredit(credit.data.credit);
+
+      if (credit.data.success) {
+        updateLoadingToast(loadingToast, 'success', "Credits loaded successfully!");
+      } else {
+        updateLoadingToast(loadingToast, 'error', "Failed to load credits");
+        setShowUnlockModal(false);
+      }
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Failed to load credits";
+      updateLoadingToast(loadingToast, 'error', errorMessage);
+      setShowUnlockModal(false);
+    }
   };
 
   const confirmUnlock = async () => {
-    console.log("ID " + id);
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/user/unlock`,
-      {
-        profileId: id,
-      },
-    );
-    console.log(response);
-    console.log("Profile unlocked for:", name);
-    redirect(`/profile/${id}`);
+    const loadingToast = showLoadingToast("Unlocking profile...");
+
+    try {
+      console.log("ID " + id);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/unlock`,
+        {
+          profileId: id,
+        },
+      );
+      console.log(response);
+
+      // Check if the response indicates success
+      if (response.data.success !== false && response.status >= 200 && response.status < 300) {
+        const successMessage = response.data.message || `Profile unlocked for ${name}!`;
+        updateLoadingToast(loadingToast, 'success', successMessage);
+        console.log("Profile unlocked for:", name);
+        router.push(`/profile/${id}`);
+      } else {
+        const errorMessage = response.data.message || "Failed to unlock profile";
+        updateLoadingToast(loadingToast, 'error', errorMessage);
+      }
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Failed to unlock profile";
+      updateLoadingToast(loadingToast, 'error', errorMessage);
+    }
   };
   console.log("clubMember", clubMember);
   return (
     <div
-      className={`rounded-2xl p-4 sm:p-6 flex flex-col h-full ${
-        clubMember
-          ? "bg-[#02000A] border border-[#3E1C96]"
-          : "border-1 border-border-secondary bg-bg-secondary"
-      }`}
+      className={`rounded-2xl p-4 sm:p-6 flex flex-col h-full ${clubMember
+        ? "bg-[#02000A] border border-[#3E1C96]"
+        : "border-1 border-border-secondary bg-bg-secondary"
+        }`}
     >
       <div className="flex items-start gap-3 sm:gap-4">
         <Image

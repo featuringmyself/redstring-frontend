@@ -67,7 +67,7 @@ export default async function Page({
   return (
     <>
       <ProfileTopBar profileStatus={profile.status} />
-      <div className="px-4 sm:px-6 md:px-8 lg:px-10 mt-6 md:mt-8 text-[#F7F7F7]">
+      <div className="px-4 sm:px-6 md:px-8 lg:px-10 pb-6 mt-6 md:mt-8 text-[#F7F7F7]">
         {/* Head */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
           <Image
