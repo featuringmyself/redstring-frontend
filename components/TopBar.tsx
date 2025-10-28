@@ -7,7 +7,7 @@ export default function TopBar() {
         <ol className="flex items-center gap-2">
           <li>
             <Link
-              href="/posted-gigs"
+              href="/"
               className="text-text-tertiary hover:text-text-secondary transition-colors"
             >
               Posted Gigs

@@ -17,6 +17,7 @@ interface CandidateData {
   _id: string;
   name: string;
   profession: string;
+  clubMember: boolean;
   college: College;
   nextOpportunity: NextOpportunity;
   location: string;
@@ -41,7 +42,7 @@ export default async function Listings() {
   }
   console.log(candidates);
   return (
-    <div className="py-8 px-10">
+    <div className="py-20 px-10">
       {/* Head Section */}
       <div>
         <div className="flex items-center gap-4">
@@ -100,6 +101,7 @@ export default async function Listings() {
             key={candidate._id}
             id={candidate._id}
             name={candidate.name}
+            clubMember={candidate.clubMember}
             proffession={candidate.profession}
             yoe={candidate.yoe}
             location={candidate.location}

@@ -6,7 +6,8 @@ import axios from "axios";
 import userImage from "@/public/userProfile.png";
 import personIcon from "@/public/personIcon.png";
 import { IconCheck, IconX, IconLock } from "@tabler/icons-react";
-import CircularProgress from "./CircularProgress"; // Add this import
+import CircularProgress from "./CircularProgress";
+import clubMemberIcon from "@/public/clubMember.png"
 import { useState } from "react";
 import { redirect } from "next/navigation";
 
@@ -15,6 +16,7 @@ export default function ListItem({
   name,
   proffession,
   yoe,
+  clubMember,
   location,
   college,
   availability,
@@ -27,6 +29,7 @@ export default function ListItem({
   name: string;
   proffession: string;
   yoe: string;
+  clubMember: boolean;
   location: string;
   college: string;
   availability: string;
@@ -77,10 +80,16 @@ export default function ListItem({
     console.log(response);
     console.log("Profile unlocked for:", name);
     redirect(`/profile/${id}`);
-    setShowUnlockModal(false);
   };
+  console.log("clubMember", clubMember);
   return (
-    <div className="rounded-2xl border-1 border-border-secondary bg-bg-secondary p-6 flex flex-col h-full">
+    <div
+      className={`rounded-2xl p-6 flex flex-col h-full ${
+        clubMember
+          ? "bg-[#02000A] border border-[#3E1C96]"
+          : "border-1 border-border-secondary bg-bg-secondary"
+      }`}
+    >
       <div className="flex items-start gap-4">
         <Image
           src={userImage}
@@ -93,14 +102,14 @@ export default function ListItem({
           {/* In Production we will have a random name  */}
           <div className="text-lg flex items-center gap-2">
             {" "}
-            <span className="blur-sm">{name}</span>{" "}
+            <span className="blur-sm select-none">{name}</span>{" "}
             <span className="text-[#A3A3A3]">•</span>{" "}
             <span className={"text-blue-light"}>{proffession}</span>
           </div>
           <div className={"text-sm flex items-center gap-2.5"}>
             {yoe} Years of Experience{" "}
             <span className={"font-normal text-[#737373]"}>|</span>{" "}
-            <span className={"blur-sm"}>alskdjf</span>{" "}
+            <span className={"blur-sm select-none"}>alskdjf</span>{" "}
             <span className={"font-normal text-[#737373]"}>|</span> {location}
           </div>
           <div className={"text-sm flex items-center gap-2.5"}>
@@ -140,19 +149,23 @@ export default function ListItem({
       {/* Ideal Next Opportunity */}
       <div className={"font-normal flex flex-col gap-2 mt-6"}>
         <p className={"text-text-disabled text-sm "}>Ideal next opportunity</p>
-        <div className={"flex items-center gap-3 text-sm"}>
-          <div
-            className={
-              "flex items-center bg-gray-blue py-1 px-2.5 text-[#D5D9EB] rounded gap-1.5"
-            }
-          >
-            <IconCheck className={"h-3 w-auto"} /> {nextOpportunity.proffesion}
+        <div className={"flex items-center  text-sm justify-between"}>
+          <div className={"flex items-center gap-3 text-sm"}>
+            <div
+              className={
+                "flex items-center bg-gray-blue py-1 px-2.5 text-[#D5D9EB] rounded gap-1.5"
+              }
+            >
+              <IconCheck className={"h-3 w-auto"} />{" "}
+              {nextOpportunity.proffesion}
+            </div>
+            <div
+              className={"bg-utility-success text-success py-1 px-2.5 rounded"}
+            >
+              ₹ {nextOpportunity.package} LPA
+            </div>
           </div>
-          <div
-            className={"bg-utility-success text-success py-1 px-2.5 rounded"}
-          >
-            ₹ {nextOpportunity.package} LPA
-          </div>
+            <span className={`font-normal flex items-center gap-3 ${clubMember? "bg-gradient-to-r from-[#5912A0] to-[#2E0755]  py-1 pl-3 pr-2.5 rounded-[6px]":"hidden"}`}><Image src={clubMemberIcon} alt={"Club Member Badge"} className={"w-4 h-4 rounded-sm"}/> Club Member</span>
         </div>
       </div>
 
