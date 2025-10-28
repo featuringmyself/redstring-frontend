@@ -40,7 +40,7 @@ export default async function Listings() {
   }
   console.log(candidates);
   return (
-    <div className="py-20 px-4 sm:px-6 md:px-10">
+    <div className="py-8 px-4 sm:px-6 md:px-10">
       {/* Head Section */}
       <div>
         <div className="flex items-center gap-4 flex-wrap">
