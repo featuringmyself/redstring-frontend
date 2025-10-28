@@ -27,12 +27,10 @@ interface CandidateData {
   score: number;
 }
 
-interface CandidateResponse {
-  data: CandidateData[];
-}
+
 
 export default async function Listings() {
-  const listings = await axios.get<CandidateResponse>(
+  const listings = await axios.get<CandidateData[]>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/profile`,
   );
   const candidates = listings.data;
@@ -111,7 +109,7 @@ export default async function Listings() {
             score={candidate.score}
             nextOpportunity={{
               proffesion: candidate.nextOpportunity.profession,
-              package: candidate.nextOpportunity.package,
+              package: parseFloat(candidate.nextOpportunity.package),
             }}
           />
         ))}
