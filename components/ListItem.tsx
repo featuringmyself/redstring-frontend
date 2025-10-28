@@ -99,6 +99,7 @@ export default function ListItem({
           profileId: id,
         },
       );
+      setCredit(credit-10)
       console.log(response);
 
       // Check if the response indicates success
